@@ -1,7 +1,8 @@
+import { request, RequestDocument } from 'graphql-request'
 
 const BASE_URL = 'https://fakestoreapi.com';
-
-type AnyOBJ = { [key:string] : any } ;
+const MSW_URL = '/';
+type AnyOBJ = { [key: string]: any } 
 export const fetcher = async ({
   method,
   path,
@@ -35,6 +36,9 @@ export const fetcher = async ({
   }
 }
 
+export const graphqlFetcher = <T>(query: RequestDocument, variables = {}) =>
+  request<T>(MSW_URL, query, variables);
 export const QueryKeys = {
-  PRODUCTS : 'PRODUCTS'
+  PRODUCTS : 'PRODUCTS',
+  CART : 'CART'
 }

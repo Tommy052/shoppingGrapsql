@@ -1,23 +1,31 @@
-import { useQuery } from "@tanstack/react-query"
-import { QueryKeys, fetcher } from "../../queryClient"
-import { Product } from "../../type"
-import ProductItem from "../../components/prouduct/item"
+import { useQuery } from "@tanstack/react-query";
+import { graphqlFetcher,QueryKeys } from "../../queryClient";
+import ProductItem from "../../components/product/item";
+import GET_PRODUCTS, { Products } from "../../graphql/products";
+
+
 const ProductList = () => {
-  const {data} = useQuery<Product[]>([QueryKeys.PRODUCTS],() => fetcher({
-    method: 'GET',
-    path: '/products'
-  }) )
+  // const { data } = useQuery<Product[]>([QueryKeys.PRODUCTS], () =>
+  //   fetcher({
+  //     method: "GET",
+  //     path: "products",
+  //   })
+  // );
+
+  const { data } = useQuery<Products>([QueryKeys.PRODUCTS], () =>
+  graphqlFetcher<Products>(GET_PRODUCTS)
+  )
   console.log(data)
-  return(
-    <>
-    <div >
+  return (
+    <div>
+      <h2>상품목록</h2>
       <ul className="products">
-        {data?.map(product => (
+        {data?.products?.map( product => (
           <ProductItem {...product} key={product.id} />
-        ))}   
+        ))}
       </ul>
     </div>
-    </>
-  )
-}
-export default ProductList
+  );
+};
+
+export default ProductList;

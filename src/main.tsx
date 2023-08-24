@@ -16,5 +16,13 @@
 //     </QueryClientProvider>
 //   </React.StrictMode>,
 // )
+// src/index.js
+import { worker } from './mocks/browser';
+
+if (import.meta.env.DEV) {
+  worker.start()
+  console.log('start');
+}
 
 console.log('hello');
+
