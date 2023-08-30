@@ -1,8 +1,27 @@
+import { QueryClient } from '@tanstack/react-query';
 import { request, RequestDocument } from 'graphql-request'
 
 const BASE_URL = 'https://fakestoreapi.com';
 const MSW_URL = '/';
 type AnyOBJ = { [key: string]: any } 
+export const getClient = (() => {
+  let client: QueryClient | null = null
+  return () => {
+    if (!client)
+      client = new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+    return client
+  }
+})()
 export const fetcher = async ({
   method,
   path,
